@@ -22,11 +22,12 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public List<File> search(String fileName) {
-//		Iterator<Version> versionIterator = versionRepository.findAll().iterator();
-//		if (versionIterator.hasNext()) {
-//			return fileRepository.findByNameAndVersion(fileName, versionIterator.next().getValue());
-//		} else {
-			return fileRepository.findByName(fileName);
-//		}
+		Iterator<Version> versionIterator = versionRepository.findAll().iterator();
+		if (versionIterator.hasNext()) {
+			int version = versionIterator.next().getValue();
+			return fileRepository.findByNameAndVersion("*" + fileName + "*", version);
+		} else {
+			return fileRepository.findByName("*" + fileName + "*");
+		}
 	}
 }

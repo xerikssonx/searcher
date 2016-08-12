@@ -27,7 +27,7 @@ public class ScraperServiceImpl implements ScraperService {
 	@Autowired
 	private VersionRepository versionRepository;
 
-	@Scheduled(fixedDelay = 1000 * 60 * 60 * 12)
+//	@Scheduled(fixedDelay = 1000 * 60 * 60 * 12)
 	public void scanFileSystem() {
 		Version version = null;
 		Iterator<Version> versionIterator = versionRepository.findAll().iterator();
@@ -39,6 +39,15 @@ public class ScraperServiceImpl implements ScraperService {
 		}
 		versionRepository.save(version);
 		taskExecutor.execute(new Scrape(new java.io.File("/home/edgar/Documents/"), version));
+	}
+
+	@Scheduled(fixedDelay = 1000 * 60 * 60 * 12)
+	public void deleteOld() {
+		Iterator<Version> versionIterator = versionRepository.findAll().iterator();
+		if (versionIterator.hasNext()) {
+			Version version = versionIterator.next();
+			
+		}
 	}
 
 	public class Scrape implements Runnable {
@@ -69,7 +78,6 @@ public class ScraperServiceImpl implements ScraperService {
 						try {
 							String path = file.getCanonicalPath();
 							list.add(new com.example.entity.File(file.getName(), path, version.getValue()));
-							System.out.println(path);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

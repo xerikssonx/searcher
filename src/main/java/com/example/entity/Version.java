@@ -3,11 +3,11 @@ package com.example.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "version", type = "version")
+@Document(indexName = "version2", type = "version2")
 public class Version {
 
 	@Id
-	private Integer id;
+	private String id;
 
 	private Integer value;
 
@@ -23,11 +23,11 @@ public class Version {
 		date = System.currentTimeMillis();
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -46,5 +46,12 @@ public class Version {
 	public void setDate(Long date) {
 		this.date = date;
 	}
+
+	@Override
+	public String toString() {
+		return "Version [id=" + id + ", value=" + value + ", date=" + date + "]";
+	}
+	
+	
 
 }
